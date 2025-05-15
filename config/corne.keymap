@@ -13,11 +13,77 @@
 #define LOWER   1
 #define RAISE   2
 #define TOP     3
+// HRM Layer Definitions
+#define HRM_L_RING_LAYER  6
+#define HRM_L_MID_LAYER   7
+#define HRM_L_IDX_LAYER   8
+#define HRM_R_IDX_LAYER   9
+#define HRM_R_MID_LAYER   10
+#define HRM_R_RING_LAYER  11
+#define HRM_R_PNKY_LAYER  12
 
 / {
     combos { compatible = "zmk,combos"; };
 
     behaviors {
+        // Home Row Mods Behaviors
+        hrm_s_lshft: hrm_s_lshft {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HRM_S_LSHFT";
+            bindings = <&mo HRM_L_RING_LAYER>, <&kp S>;
+            tapping-term-ms = <150>;
+            quick-tap-ms = <150>;
+            flavor = "tap-preferred";
+        };
+        hrm_d_lalt: hrm_d_lalt {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HRM_D_LALT";
+            bindings = <&mo HRM_L_MID_LAYER>, <&kp D>;
+            tapping-term-ms = <150>;
+            quick-tap-ms = <150>;
+            flavor = "tap-preferred";
+        };
+        hrm_f_lctrl: hrm_f_lctrl {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HRM_F_LCTRL";
+            bindings = <&mo HRM_L_IDX_LAYER>, <&kp F>;
+            tapping-term-ms = <150>;
+            quick-tap-ms = <150>;
+            flavor = "tap-preferred";
+        };
+        hrm_j_rctrl: hrm_j_rctrl {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HRM_J_RCTRL";
+            bindings = <&mo HRM_R_IDX_LAYER>, <&kp J>;
+            tapping-term-ms = <150>;
+            quick-tap-ms = <150>;
+            flavor = "tap-preferred";
+        };
+        hrm_k_ralt: hrm_k_ralt {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HRM_K_RALT";
+            bindings = <&mo HRM_R_MID_LAYER>, <&kp K>;
+            tapping-term-ms = <150>;
+            quick-tap-ms = <150>;
+            flavor = "tap-preferred";
+        };
+        hrm_l_rshft: hrm_l_rshft {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HRM_L_RSHFT";
+            bindings = <&mo HRM_R_RING_LAYER>, <&kp L>;
+            tapping-term-ms = <150>;
+            quick-tap-ms = <150>;
+            flavor = "tap-preferred";
+        };
+        hrm_semi_rgui: hrm_semi_rgui {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HRM_SEMI_RGUI";
+            bindings = <&mo HRM_R_PNKY_LAYER>, <&kp SEMI>;
+            tapping-term-ms = <150>;
+            quick-tap-ms = <150>;
+            flavor = "tap-preferred";
+        };
+
         qq: qq {
             compatible = "zmk,behavior-mod-morph";
             label = "QQ";
@@ -114,10 +180,10 @@
 
         default_layer {
             bindings = <
-&kp TAB       &kp Q  &kp W  &kp E      &kp R     &kp T        &kp Y    &kp U  &kp I      &kp O    &kp P     &kp BSPC
-&kp CAPSLOCK  &kp A  &kp S  &kp D      &kp F     &kp G        &kp H    &kp J  &kp K      &kp L    &kp SEMI  &kp SQT
-&kp LSHFT     &kp Z  &kp X  &kp C      &kp V     &kp B        &kp N    &kp M  &kp COMMA  &kp DOT  &kp FSLH  &mo 1
-                            &kp LCTRL  &kp LGUI  &kp SPACE    &kp RET  &mo 2  &kp RALT
+&kp TAB       &kp Q            &kp W            &kp E            &kp R            &kp T                     &kp Y            &kp U            &kp I            &kp O            &kp P            &kp BSPC
+&kp CAPSLOCK  &kp A            &hrm_s_lshft     &hrm_d_lalt      &hrm_f_lctrl     &kp G                     &kp H            &hrm_j_rctrl     &hrm_k_ralt      &hrm_l_rshft     &hrm_semi_rgui   &kp SQT
+&kp LSHFT     &kp Z            &kp X            &kp C            &kp V            &kp B                     &kp N            &kp M            &kp COMMA        &kp DOT          &kp FSLH         &mo LOWER
+                                                &kp LCTRL        &kp LGUI         &kp SPACE                 &kp RET          &mo RAISE        &kp RALT
             >;
         };
 
@@ -160,6 +226,80 @@
 &trans  &trans                    &trans                &trans             &trans               &trans            &trans              &trans            &trans           &trans                   &trans                    &trans
 &trans  &trans                    &trans                &trans             &trans               &trans            &trans              &trans            &trans           &trans                   &trans                    &trans
                                                         &trans             &trans               &trans            &trans              &trans            &trans
+            >;
+        };
+
+        // HRM Bilateral Layers
+        hrm_l_ring_layer { // LShift from left 'S'
+            bindings = <
+            // Left Hand (Same hand as S - normal keys, HRMs are base keys)
+            &kp TAB         &kp Q           &kp W           &kp E           &kp R           &kp T           // Right Hand (Opposite hand - LShift + key)
+                                                                                                            &kp LS(Y)       &kp LS(U)       &kp LS(I)       &kp LS(O)       &kp LS(P)       &kp LS(BSPC)
+            &kp CAPSLOCK    &kp A           &kp S           &kp D           &kp F           &kp G           &kp LS(H)       &kp LS(J)       &kp LS(K)       &kp LS(L)       &kp LS(SEMI)    &kp LS(SQT)
+            &kp LSHFT       &kp Z           &kp X           &kp C           &kp V           &kp B           &kp LS(N)       &kp LS(M)       &kp LS(COMMA)   &kp LS(DOT)     &kp LS(FSLH)    &trans
+                                                            &kp LCTRL       &kp LGUI        &kp SPACE       &kp LS(RET)     &trans          &trans
+            >;
+        };
+
+        hrm_l_mid_layer { // LAlt from left 'D'
+            bindings = <
+            // Left Hand (Same hand as D - normal keys, HRMs are base keys)
+            &kp TAB         &kp Q           &kp W           &kp E           &kp R           &kp T           // Right Hand (Opposite hand - LAlt + key)
+                                                                                                            &kp LA(Y)       &kp LA(U)       &kp LA(I)       &kp LA(O)       &kp LA(P)       &kp LA(BSPC)
+            &kp CAPSLOCK    &kp A           &kp S           &kp D           &kp F           &kp G           &kp LA(H)       &kp LA(J)       &kp LA(K)       &kp LA(L)       &kp LA(SEMI)    &kp LA(SQT)
+            &kp LSHFT       &kp Z           &kp X           &kp C           &kp V           &kp B           &kp LA(N)       &kp LA(M)       &kp LA(COMMA)   &kp LA(DOT)     &kp LA(FSLH)    &trans
+                                                            &kp LCTRL       &kp LGUI        &kp SPACE       &kp LA(RET)     &trans          &trans
+            >;
+        };
+
+        hrm_l_idx_layer { // LCtrl from left 'F'
+            bindings = <
+            // Left Hand (Same hand as F - normal keys, HRMs are base keys)
+            &kp TAB         &kp Q           &kp W           &kp E           &kp R           &kp T           // Right Hand (Opposite hand - LCtrl + key)
+                                                                                                            &kp LC(Y)       &kp LC(U)       &kp LC(I)       &kp LC(O)       &kp LC(P)       &kp LC(BSPC)
+            &kp CAPSLOCK    &kp A           &kp S           &kp D           &kp F           &kp G           &kp LC(H)       &kp LC(J)       &kp LC(K)       &kp LC(L)       &kp LC(SEMI)    &kp LC(SQT)
+            &kp LSHFT       &kp Z           &kp X           &kp C           &kp V           &kp B           &kp LC(N)       &kp LC(M)       &kp LC(COMMA)   &kp LC(DOT)     &kp LC(FSLH)    &trans
+                                                            &kp LCTRL       &kp LGUI        &kp SPACE       &kp LC(RET)     &trans          &trans
+            >;
+        };
+
+        hrm_r_idx_layer { // RCtrl from right 'J'
+            bindings = <
+            // Left Hand (Opposite hand - RCtrl + key)                                                      // Right Hand (Same hand as J - normal keys, HRMs are base keys)
+            &kp RC(TAB)     &kp RC(Q)       &kp RC(W)       &kp RC(E)       &kp RC(R)       &kp RC(T)       &kp Y           &kp U           &kp I           &kp O           &kp P           &kp BSPC
+            &kp RC(CAPSLOCK)&kp RC(A)       &kp RC(S)       &kp RC(D)       &kp RC(F)       &kp RC(G)       &kp H           &kp J           &kp K           &kp L           &kp SEMI        &kp SQT
+            &trans          &kp RC(Z)       &kp RC(X)       &kp RC(C)       &kp RC(V)       &kp RC(B)       &kp N           &kp M           &kp COMMA       &kp DOT         &kp FSLH        &mo LOWER
+                                                            &kp RC(LCTRL)   &kp RC(LGUI)    &kp RC(SPACE)   &kp RET         &mo RAISE       &kp RALT
+            >;
+        };
+
+        hrm_r_mid_layer { // RAlt from right 'K'
+            bindings = <
+            // Left Hand (Opposite hand - RAlt + key)                                                      // Right Hand (Same hand as K - normal keys, HRMs are base keys)
+            &kp RA(TAB)     &kp RA(Q)       &kp RA(W)       &kp RA(E)       &kp RA(R)       &kp RA(T)       &kp Y           &kp U           &kp I           &kp O           &kp P           &kp BSPC
+            &kp RA(CAPSLOCK)&kp RA(A)       &kp RA(S)       &kp RA(D)       &kp RA(F)       &kp RA(G)       &kp H           &kp J           &kp K           &kp L           &kp SEMI        &kp SQT
+            &trans          &kp RA(Z)       &kp RA(X)       &kp RA(C)       &kp RA(V)       &kp RA(B)       &kp N           &kp M           &kp COMMA       &kp DOT         &kp FSLH        &mo LOWER
+                                                            &kp RA(LCTRL)   &kp RA(LGUI)    &kp RA(SPACE)   &kp RET         &mo RAISE       &kp RALT
+            >;
+        };
+
+        hrm_r_ring_layer { // RShift from right 'L'
+            bindings = <
+            // Left Hand (Opposite hand - RShift + key)                                                    // Right Hand (Same hand as L - normal keys, HRMs are base keys)
+            &kp RS(TAB)     &kp RS(Q)       &kp RS(W)       &kp RS(E)       &kp RS(R)       &kp RS(T)       &kp Y           &kp U           &kp I           &kp O           &kp P           &kp BSPC
+            &kp RS(CAPSLOCK)&kp RS(A)       &kp RS(S)       &kp RS(D)       &kp RS(F)       &kp RS(G)       &kp H           &kp J           &kp K           &kp L           &kp SEMI        &kp SQT
+            &trans          &kp RS(Z)       &kp RS(X)       &kp RS(C)       &kp RS(V)       &kp RS(B)       &kp N           &kp M           &kp COMMA       &kp DOT         &kp FSLH        &mo LOWER
+                                                            &kp RS(LCTRL)   &kp RS(LGUI)    &kp RS(SPACE)   &kp RET         &mo RAISE       &kp RALT
+            >;
+        };
+
+        hrm_r_pnky_layer { // RGui from right 'SEMI'
+            bindings = <
+            // Left Hand (Opposite hand - RGui + key)                                                      // Right Hand (Same hand as SEMI - normal keys, HRMs are base keys)
+            &kp RG(TAB)     &kp RG(Q)       &kp RG(W)       &kp RG(E)       &kp RG(R)       &kp RG(T)       &kp Y           &kp U           &kp I           &kp O           &kp P           &kp BSPC
+            &kp RG(CAPSLOCK)&kp RG(A)       &kp RG(S)       &kp RG(D)       &kp RG(F)       &kp RG(G)       &kp H           &kp J           &kp K           &kp L           &kp SEMI        &kp SQT
+            &trans          &kp RG(Z)       &kp RG(X)       &kp RG(C)       &kp RG(V)       &kp RG(B)       &kp N           &kp M           &kp COMMA       &kp DOT         &kp FSLH        &mo LOWER
+                                                            &kp RG(LCTRL)   &kp RG(LGUI)    &kp RG(SPACE)   &kp RET         &mo RAISE       &kp RALT
             >;
         };
     };
