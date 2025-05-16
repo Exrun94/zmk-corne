@@ -9,20 +9,110 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/rgb.h>
 
+// Layer definitions
 #define DEFAULT 0
 #define LOWER   1
 #define RAISE   2
 #define TOP     3
 
+// Home Row Mods configuration
+#define DIFFICULTY_LEVEL  0  // 0:custom, 1:easy -> 5:hard
+
+// Set default tapping term (if DIFFICULTY_LEVEL=0)
+#ifndef TAPPING_RESOLUTION
+#define TAPPING_RESOLUTION 150  // Custom value (150ms)
+#endif
+
+// Configure the tapping term based on difficulty level
+#ifdef DIFFICULTY_LEVEL
+    #if DIFFICULTY_LEVEL > 0 && DIFFICULTY_LEVEL < 6
+        #ifndef TAPPING_RESOLUTION
+            #define TAPPING_RESOLUTION ((6 - DIFFICULTY_LEVEL) * 100)
+        #endif
+    #endif
+#endif
+
+// Define holds for bilateral (cross-hand) activation
+#define ENFORCE_BILATERAL    // cancels single-handed home row mod+tap
+
+// Set the mod keys for home row (pinky to index: super, alt, ctrl, shift)
+#define PINKY_FINGER_MOD LGUI  // Super/GUI
+#define RING1_FINGER_MOD LALT  // Alt
+#define MIDDY_FINGER_MOD LCTL  // Ctrl
+#define INDEX_FINGER_MOD LSFT  // Shift
+
+// Define holding times for each finger
+#ifndef HOMEY_HOLDING_TIME
+#define HOMEY_HOLDING_TIME (TAPPING_RESOLUTION + 90)
+#endif
+#ifndef INDEX_HOLDING_TIME
+#define INDEX_HOLDING_TIME (TAPPING_RESOLUTION + 20)
+#endif
+#ifndef MIDDY_HOLDING_TIME
+#define MIDDY_HOLDING_TIME (TAPPING_RESOLUTION + 60)
+#endif
+#ifndef RING1_HOLDING_TIME
+#define RING1_HOLDING_TIME (TAPPING_RESOLUTION + 90)
+#endif
+#ifndef PINKY_HOLDING_TIME
+#define PINKY_HOLDING_TIME (TAPPING_RESOLUTION + 110)
+#endif
+
+// Define streak decay times
+#ifndef HOMEY_STREAK_DECAY
+#define HOMEY_STREAK_DECAY TAPPING_RESOLUTION
+#endif
+#ifndef INDEX_STREAK_DECAY
+#define INDEX_STREAK_DECAY (TAPPING_RESOLUTION - 50)
+#endif
+#ifndef MIDDY_STREAK_DECAY
+#define MIDDY_STREAK_DECAY HOMEY_STREAK_DECAY
+#endif
+#ifndef RING1_STREAK_DECAY
+#define RING1_STREAK_DECAY HOMEY_STREAK_DECAY
+#endif
+#ifndef PINKY_STREAK_DECAY
+#define PINKY_STREAK_DECAY HOMEY_STREAK_DECAY
+#endif
+
+// Define repeat decay times
+#ifndef HOMEY_REPEAT_DECAY
+#define HOMEY_REPEAT_DECAY (TAPPING_RESOLUTION + 150)
+#endif
+#ifndef INDEX_REPEAT_DECAY
+#define INDEX_REPEAT_DECAY (TAPPING_RESOLUTION + 150)
+#endif
+#ifndef MIDDY_REPEAT_DECAY
+#define MIDDY_REPEAT_DECAY HOMEY_REPEAT_DECAY
+#endif
+#ifndef RING1_REPEAT_DECAY
+#define RING1_REPEAT_DECAY HOMEY_REPEAT_DECAY
+#endif
+#ifndef PINKY_REPEAT_DECAY
+#define PINKY_REPEAT_DECAY HOMEY_REPEAT_DECAY
+#endif
+
+// Define holding types for each finger
+#define HOMEY_HOLDING_TYPE "balanced"
+#define INDEX_HOLDING_TYPE "tap-preferred"
+#define MIDDY_HOLDING_TYPE HOMEY_HOLDING_TYPE
+#define RING1_HOLDING_TYPE HOMEY_HOLDING_TYPE
+#define PINKY_HOLDING_TYPE HOMEY_HOLDING_TYPE
+
+// Define key position groups for home row mods
+#define LEFT_HAND_KEYS 0 1 2 3 4 5 12 13 14 15 16 17 24 25 26 27 28 29  // left-hand keys
+#define RIGHT_HAND_KEYS 6 7 8 9 10 11 18 19 20 21 22 23 30 31 32 33 34 35  // right-hand keys
+#define THUMB_KEYS 36 37 38 39 40 41  // thumb keys
+
 / {
     combos { compatible = "zmk,combos"; };
 
     behaviors {
+        // Existing Q-P mod morphs
         qq: qq {
             compatible = "zmk,behavior-mod-morph";
             label = "QQ";
             bindings = <&kp Q>, <&kp EXCLAMATION>;
-
             #binding-cells = <0>;
             mods = <(MOD_LCTL|MOD_LALT|MOD_LSFT|MOD_LGUI)>;
         };
@@ -31,7 +121,6 @@
             compatible = "zmk,behavior-mod-morph";
             label = "WW";
             bindings = <&kp W>, <&kp AT_SIGN>;
-
             #binding-cells = <0>;
             mods = <(MOD_LCTL|MOD_LALT|MOD_LSFT|MOD_LGUI)>;
         };
@@ -40,7 +129,6 @@
             compatible = "zmk,behavior-mod-morph";
             label = "EE";
             bindings = <&kp E>, <&kp HASH>;
-
             #binding-cells = <0>;
             mods = <(MOD_LCTL|MOD_LALT|MOD_LSFT|MOD_LGUI)>;
         };
@@ -49,7 +137,6 @@
             compatible = "zmk,behavior-mod-morph";
             label = "RR";
             bindings = <&kp R>, <&kp DOLLAR>;
-
             #binding-cells = <0>;
             mods = <(MOD_LCTL|MOD_LALT|MOD_LSFT|MOD_LGUI)>;
         };
@@ -58,7 +145,6 @@
             compatible = "zmk,behavior-mod-morph";
             label = "TT";
             bindings = <&kp T>, <&kp PERCENT>;
-
             #binding-cells = <0>;
             mods = <(MOD_LCTL|MOD_LALT|MOD_LSFT|MOD_LGUI)>;
         };
@@ -67,7 +153,6 @@
             compatible = "zmk,behavior-mod-morph";
             label = "YY";
             bindings = <&kp Y>, <&kp CARET>;
-
             #binding-cells = <0>;
             mods = <(MOD_LCTL|MOD_LALT|MOD_LSFT|MOD_LGUI)>;
         };
@@ -76,7 +161,6 @@
             compatible = "zmk,behavior-mod-morph";
             label = "UU";
             bindings = <&kp U>, <&kp AMPERSAND>;
-
             #binding-cells = <0>;
             mods = <(MOD_LCTL|MOD_LALT|MOD_LSFT|MOD_LGUI)>;
         };
@@ -85,7 +169,6 @@
             compatible = "zmk,behavior-mod-morph";
             label = "II";
             bindings = <&kp I>, <&kp ASTERISK>;
-
             #binding-cells = <0>;
             mods = <(MOD_LCTL|MOD_LALT|MOD_LSFT|MOD_LGUI)>;
         };
@@ -94,7 +177,6 @@
             compatible = "zmk,behavior-mod-morph";
             label = "OO";
             bindings = <&kp O>, <&kp LEFT_PARENTHESIS>;
-
             #binding-cells = <0>;
             mods = <(MOD_LCTL|MOD_LALT|MOD_LSFT|MOD_LGUI)>;
         };
@@ -103,9 +185,132 @@
             compatible = "zmk,behavior-mod-morph";
             label = "PP";
             bindings = <&kp P>, <&kp RIGHT_PARENTHESIS>;
-
             #binding-cells = <0>;
             mods = <(MOD_LCTL|MOD_LALT|MOD_LSFT|MOD_LGUI)>;
+        };
+        
+        // Home Row Mods - Left Hand
+        
+        // Pinky - LGUI/Super (A key)
+        hml_pinky: hml_pinky {
+            compatible = "zmk,behavior-hold-tap";
+            flavor = PINKY_HOLDING_TYPE;
+            #ifdef ENFORCE_BILATERAL
+            hold-trigger-key-positions = <RIGHT_HAND_KEYS THUMB_KEYS>;
+            #endif
+            hold-trigger-on-release; // wait for other home row mods
+            tapping-term-ms = <PINKY_HOLDING_TIME>;
+            quick-tap-ms = <PINKY_REPEAT_DECAY>;
+            require-prior-idle-ms = <PINKY_STREAK_DECAY>;
+            #binding-cells = <2>;
+            bindings = <&kp>, <&kp>;
+        };
+        
+        // Ring - LALT (S key)
+        hml_ring: hml_ring {
+            compatible = "zmk,behavior-hold-tap";
+            flavor = RING1_HOLDING_TYPE;
+            #ifdef ENFORCE_BILATERAL
+            hold-trigger-key-positions = <RIGHT_HAND_KEYS THUMB_KEYS>;
+            #endif
+            hold-trigger-on-release; // wait for other home row mods
+            tapping-term-ms = <RING1_HOLDING_TIME>;
+            quick-tap-ms = <RING1_REPEAT_DECAY>;
+            require-prior-idle-ms = <RING1_STREAK_DECAY>;
+            #binding-cells = <2>;
+            bindings = <&kp>, <&kp>;
+        };
+        
+        // Middle - LCTL (D key)
+        hml_middle: hml_middle {
+            compatible = "zmk,behavior-hold-tap";
+            flavor = MIDDY_HOLDING_TYPE;
+            #ifdef ENFORCE_BILATERAL
+            hold-trigger-key-positions = <RIGHT_HAND_KEYS THUMB_KEYS>;
+            #endif
+            hold-trigger-on-release; // wait for other home row mods
+            tapping-term-ms = <MIDDY_HOLDING_TIME>;
+            quick-tap-ms = <MIDDY_REPEAT_DECAY>;
+            require-prior-idle-ms = <MIDDY_STREAK_DECAY>;
+            #binding-cells = <2>;
+            bindings = <&kp>, <&kp>;
+        };
+        
+        // Index - LSFT (F key)
+        hml_index: hml_index {
+            compatible = "zmk,behavior-hold-tap";
+            flavor = INDEX_HOLDING_TYPE;
+            #ifdef ENFORCE_BILATERAL
+            hold-trigger-key-positions = <RIGHT_HAND_KEYS THUMB_KEYS>;
+            #endif
+            hold-trigger-on-release; // wait for other home row mods
+            tapping-term-ms = <INDEX_HOLDING_TIME>;
+            quick-tap-ms = <INDEX_REPEAT_DECAY>;
+            require-prior-idle-ms = <INDEX_STREAK_DECAY>;
+            #binding-cells = <2>;
+            bindings = <&kp>, <&kp>;
+        };
+        
+        // Home Row Mods - Right Hand
+        
+        // Index - RSFT (J key)
+        hmr_index: hmr_index {
+            compatible = "zmk,behavior-hold-tap";
+            flavor = INDEX_HOLDING_TYPE;
+            #ifdef ENFORCE_BILATERAL
+            hold-trigger-key-positions = <LEFT_HAND_KEYS THUMB_KEYS>;
+            #endif
+            hold-trigger-on-release; // wait for other home row mods
+            tapping-term-ms = <INDEX_HOLDING_TIME>;
+            quick-tap-ms = <INDEX_REPEAT_DECAY>;
+            require-prior-idle-ms = <INDEX_STREAK_DECAY>;
+            #binding-cells = <2>;
+            bindings = <&kp>, <&kp>;
+        };
+        
+        // Middle - RCTL (K key)
+        hmr_middle: hmr_middle {
+            compatible = "zmk,behavior-hold-tap";
+            flavor = MIDDY_HOLDING_TYPE;
+            #ifdef ENFORCE_BILATERAL
+            hold-trigger-key-positions = <LEFT_HAND_KEYS THUMB_KEYS>;
+            #endif
+            hold-trigger-on-release; // wait for other home row mods
+            tapping-term-ms = <MIDDY_HOLDING_TIME>;
+            quick-tap-ms = <MIDDY_REPEAT_DECAY>;
+            require-prior-idle-ms = <MIDDY_STREAK_DECAY>;
+            #binding-cells = <2>;
+            bindings = <&kp>, <&kp>;
+        };
+        
+        // Ring - RALT (L key)
+        hmr_ring: hmr_ring {
+            compatible = "zmk,behavior-hold-tap";
+            flavor = RING1_HOLDING_TYPE;
+            #ifdef ENFORCE_BILATERAL
+            hold-trigger-key-positions = <LEFT_HAND_KEYS THUMB_KEYS>;
+            #endif
+            hold-trigger-on-release; // wait for other home row mods
+            tapping-term-ms = <RING1_HOLDING_TIME>;
+            quick-tap-ms = <RING1_REPEAT_DECAY>;
+            require-prior-idle-ms = <RING1_STREAK_DECAY>;
+            #binding-cells = <2>;
+            bindings = <&kp>, <&kp>;
+        };
+        
+        // Pinky - RGUI/Super (;/: key)
+        hmr_pinky: hmr_pinky {
+            compatible = "zmk,behavior-hold-tap";
+            flavor = PINKY_HOLDING_TYPE;
+            #ifdef ENFORCE_BILATERAL
+            hold-trigger-key-positions = <LEFT_HAND_KEYS THUMB_KEYS>;
+            #endif
+            hold-trigger-on-release; // wait for other home row mods
+            tapping-term-ms = <PINKY_HOLDING_TIME>;
+            quick-tap-ms = <PINKY_REPEAT_DECAY>;
+            require-prior-idle-ms = <PINKY_STREAK_DECAY>;
+            #binding-cells = <2>;
+            bindings = <&kp>, <&kp>;
         };
     };
 
@@ -114,10 +319,10 @@
 
         default_layer {
             bindings = <
-&kp TAB       &kp Q  &kp W  &kp E      &kp R     &kp T        &kp Y    &kp U  &kp I      &kp O    &kp P     &kp BSPC
-&kp CAPSLOCK  &kp A  &kp S  &kp D      &kp F     &kp G        &kp H    &kp J  &kp K      &kp L    &kp SEMI  &kp SQT
-&kp LSHFT     &kp Z  &kp X  &kp C      &kp V     &kp B        &kp N    &kp M  &kp COMMA  &kp DOT  &kp FSLH  &mo 1
-                            &kp LCTRL  &kp LGUI  &kp SPACE    &kp RET  &mo 2  &kp RALT
+&kp TAB       &kp Q  &kp W  &kp E      &kp R     &kp T        &kp Y    &kp U     &kp I       &kp O     &kp P     &kp BSPC
+&kp CAPSLOCK  &hml_pinky LGUI A  &hml_ring LALT S  &hml_middle LCTL D  &hml_index LSFT F  &kp G        &kp H    &hmr_index RSFT J  &hmr_middle RCTL K  &hmr_ring RALT L  &hmr_pinky RGUI SEMI  &kp SQT
+&kp LSHFT     &kp Z  &kp X  &kp C      &kp V     &kp B        &kp N    &kp M     &kp COMMA   &kp DOT   &kp FSLH  &mo 1
+                            &kp LCTRL  &kp LGUI  &kp SPACE    &kp RET  &mo 2     &kp RALT
             >;
         };
 
