@@ -92,13 +92,6 @@
 #define PINKY_REPEAT_DECAY HOMEY_REPEAT_DECAY
 #endif
 
-// Define holding types for each finger
-#define HOMEY_HOLDING_TYPE "balanced"
-#define INDEX_HOLDING_TYPE "tap-preferred"
-#define MIDDY_HOLDING_TYPE HOMEY_HOLDING_TYPE
-#define RING1_HOLDING_TYPE HOMEY_HOLDING_TYPE
-#define PINKY_HOLDING_TYPE HOMEY_HOLDING_TYPE
-
 // Define key position groups for home row mods
 #define LEFT_HAND_KEYS 0 1 2 3 4 5 12 13 14 15 16 17 24 25 26 27 28 29  // left-hand keys
 #define RIGHT_HAND_KEYS 6 7 8 9 10 11 18 19 20 21 22 23 30 31 32 33 34 35  // right-hand keys
@@ -108,93 +101,12 @@
     combos { compatible = "zmk,combos"; };
 
     behaviors {
-        // Existing Q-P mod morphs
-        qq: qq {
-            compatible = "zmk,behavior-mod-morph";
-            label = "QQ";
-            bindings = <&kp Q>, <&kp EXCLAMATION>;
-            #binding-cells = <0>;
-            mods = <(MOD_LCTL|MOD_LALT|MOD_LSFT|MOD_LGUI)>;
-        };
-
-        ww: ww {
-            compatible = "zmk,behavior-mod-morph";
-            label = "WW";
-            bindings = <&kp W>, <&kp AT_SIGN>;
-            #binding-cells = <0>;
-            mods = <(MOD_LCTL|MOD_LALT|MOD_LSFT|MOD_LGUI)>;
-        };
-
-        ee: ee {
-            compatible = "zmk,behavior-mod-morph";
-            label = "EE";
-            bindings = <&kp E>, <&kp HASH>;
-            #binding-cells = <0>;
-            mods = <(MOD_LCTL|MOD_LALT|MOD_LSFT|MOD_LGUI)>;
-        };
-
-        rr: rr {
-            compatible = "zmk,behavior-mod-morph";
-            label = "RR";
-            bindings = <&kp R>, <&kp DOLLAR>;
-            #binding-cells = <0>;
-            mods = <(MOD_LCTL|MOD_LALT|MOD_LSFT|MOD_LGUI)>;
-        };
-
-        tt: tt {
-            compatible = "zmk,behavior-mod-morph";
-            label = "TT";
-            bindings = <&kp T>, <&kp PERCENT>;
-            #binding-cells = <0>;
-            mods = <(MOD_LCTL|MOD_LALT|MOD_LSFT|MOD_LGUI)>;
-        };
-
-        yy: yy {
-            compatible = "zmk,behavior-mod-morph";
-            label = "YY";
-            bindings = <&kp Y>, <&kp CARET>;
-            #binding-cells = <0>;
-            mods = <(MOD_LCTL|MOD_LALT|MOD_LSFT|MOD_LGUI)>;
-        };
-
-        uu: uu {
-            compatible = "zmk,behavior-mod-morph";
-            label = "UU";
-            bindings = <&kp U>, <&kp AMPERSAND>;
-            #binding-cells = <0>;
-            mods = <(MOD_LCTL|MOD_LALT|MOD_LSFT|MOD_LGUI)>;
-        };
-
-        ii: ii {
-            compatible = "zmk,behavior-mod-morph";
-            label = "II";
-            bindings = <&kp I>, <&kp ASTERISK>;
-            #binding-cells = <0>;
-            mods = <(MOD_LCTL|MOD_LALT|MOD_LSFT|MOD_LGUI)>;
-        };
-
-        oo: oo {
-            compatible = "zmk,behavior-mod-morph";
-            label = "OO";
-            bindings = <&kp O>, <&kp LEFT_PARENTHESIS>;
-            #binding-cells = <0>;
-            mods = <(MOD_LCTL|MOD_LALT|MOD_LSFT|MOD_LGUI)>;
-        };
-
-        pp: pp {
-            compatible = "zmk,behavior-mod-morph";
-            label = "PP";
-            bindings = <&kp P>, <&kp RIGHT_PARENTHESIS>;
-            #binding-cells = <0>;
-            mods = <(MOD_LCTL|MOD_LALT|MOD_LSFT|MOD_LGUI)>;
-        };
         
         // Home Row Mods - Left Hand
-        
         // Pinky - LGUI/Super (A key)
         hml_pinky: hml_pinky {
             compatible = "zmk,behavior-hold-tap";
-            flavor = PINKY_HOLDING_TYPE;
+            flavor = "balanced";
             #ifdef ENFORCE_BILATERAL
             hold-trigger-key-positions = <RIGHT_HAND_KEYS THUMB_KEYS>;
             #endif
@@ -209,7 +121,7 @@
         // Ring - LALT (S key)
         hml_ring: hml_ring {
             compatible = "zmk,behavior-hold-tap";
-            flavor = RING1_HOLDING_TYPE;
+            flavor = "balanced";
             #ifdef ENFORCE_BILATERAL
             hold-trigger-key-positions = <RIGHT_HAND_KEYS THUMB_KEYS>;
             #endif
@@ -224,7 +136,7 @@
         // Middle - LCTL (D key)
         hml_middle: hml_middle {
             compatible = "zmk,behavior-hold-tap";
-            flavor = MIDDY_HOLDING_TYPE;
+            flavor = "balanced";
             #ifdef ENFORCE_BILATERAL
             hold-trigger-key-positions = <RIGHT_HAND_KEYS THUMB_KEYS>;
             #endif
@@ -239,7 +151,7 @@
         // Index - LSFT (F key)
         hml_index: hml_index {
             compatible = "zmk,behavior-hold-tap";
-            flavor = INDEX_HOLDING_TYPE;
+            flavor = "tap-preferred";
             #ifdef ENFORCE_BILATERAL
             hold-trigger-key-positions = <RIGHT_HAND_KEYS THUMB_KEYS>;
             #endif
@@ -256,7 +168,7 @@
         // Index - RSFT (J key)
         hmr_index: hmr_index {
             compatible = "zmk,behavior-hold-tap";
-            flavor = INDEX_HOLDING_TYPE;
+            flavor = "tap-preferred";
             #ifdef ENFORCE_BILATERAL
             hold-trigger-key-positions = <LEFT_HAND_KEYS THUMB_KEYS>;
             #endif
@@ -271,7 +183,7 @@
         // Middle - RCTL (K key)
         hmr_middle: hmr_middle {
             compatible = "zmk,behavior-hold-tap";
-            flavor = MIDDY_HOLDING_TYPE;
+            flavor = "balanced";
             #ifdef ENFORCE_BILATERAL
             hold-trigger-key-positions = <LEFT_HAND_KEYS THUMB_KEYS>;
             #endif
@@ -286,7 +198,7 @@
         // Ring - RALT (L key)
         hmr_ring: hmr_ring {
             compatible = "zmk,behavior-hold-tap";
-            flavor = RING1_HOLDING_TYPE;
+            flavor = "balanced";
             #ifdef ENFORCE_BILATERAL
             hold-trigger-key-positions = <LEFT_HAND_KEYS THUMB_KEYS>;
             #endif
@@ -301,7 +213,7 @@
         // Pinky - RGUI/Super (;/: key)
         hmr_pinky: hmr_pinky {
             compatible = "zmk,behavior-hold-tap";
-            flavor = PINKY_HOLDING_TYPE;
+            flavor = "balanced";
             #ifdef ENFORCE_BILATERAL
             hold-trigger-key-positions = <LEFT_HAND_KEYS THUMB_KEYS>;
             #endif
