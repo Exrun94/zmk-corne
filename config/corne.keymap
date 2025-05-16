@@ -294,10 +294,28 @@
 
         default_layer {
             bindings = <
-&kp TAB       &kp Q              &kp W             &kp E                       &kp R                    &kp T        &kp Y    &kp U                     &kp I                        &kp O             &kp P                 &kp BSPC
-&kp CAPSLOCK  &hml_pinky LGUI A  &hml_ring LALT S  &hml_middle LEFT_CONTROL D  &hml_index LEFT_SHIFT F  &kp G        &kp H    &hmr_index RIGHT_SHIFT J  &hmr_middle RIGHT_CONTROL K  &hmr_ring RALT L  &hmr_pinky RGUI SEMI  &kp SQT
-&kp LSHFT     &kp Z              &kp X             &kp C                       &kp V                    &kp B        &kp N    &kp M                     &kp COMMA                    &kp DOT           &kp FSLH              &mo 1
-                                                   &kp LCTRL                   &kp LGUI                 &kp SPACE    &kp RET  &mo 2                     &kp RALT
+&kp TAB       &kp Q              &kp W             &kp E                       &kp R                    &kp T        &kp Y    &kp U                     &kp I                        &kp O             &kp P                 &none
+&kp CAPSLOCK  &hml_pinky LGUI A  &hml_ring LALT S  &hml_middle LEFT_CONTROL D  &hml_index LEFT_SHIFT F  &kp G        &kp H    &hmr_index RIGHT_SHIFT J  &hmr_middle RIGHT_CONTROL K  &hmr_ring RALT L  &hmr_pinky RGUI SEMI  &none
+&kp LSHFT     &kp Z              &kp X             &kp C                       &kp V                    &kp B        &kp N    &kp M                     &kp COMMA                    &kp DOT           &kp FSLH              &mo 3
+                                                   &lt 1 BACKSPACE             &lt 2 ESCAPE             &kp SPACE    &kp RET  &lt 2 TAB                 &lt 1 SPACE
+            >;
+        };
+
+        Symbols {
+            bindings = <
+&kp PIPE              &kp LEFT_BRACE        &kp SQT        &kp GRAVE       &kp DOUBLE_QUOTES  &kp RIGHT_BRACE          &trans          &trans          &trans        &trans           &trans  &trans
+&kp NON_US_BACKSLASH  &kp LEFT_PARENTHESIS  &kp LESS_THAN  &kp EQUAL       &kp GREATER_THAN   &kp RIGHT_PARENTHESIS    &kp LEFT_ARROW  &kp DOWN_ARROW  &kp UP_ARROW  &kp RIGHT_ARROW  &trans  &trans
+&kp QUESTION          &kp LEFT_BRACKET      &kp MINUS      &kp UNDERSCORE  &kp PLUS           &kp RIGHT_BRACKET        &trans          &trans          &trans        &trans           &trans  &trans
+                                                           &kp COLON       &kp SLASH          &kp TILDE                &trans          &trans          &trans
+            >;
+        };
+
+        Number {
+            bindings = <
+&trans  &mt EXCLAMATION NUMBER_1  &mt AT_SIGN NUMBER_2  &mt HASH NUMBER_3  &mt DOLLAR NUMBER_4  &mt PERCENT N5    &mt CARET NUMBER_6  &mt AMPERSAND N7  &mt ASTERISK N8  &mt LEFT_PARENTHESIS N9  &mt RIGHT_PARENTHESIS N0  &trans
+&trans  &trans                    &trans                &trans             &trans               &trans            &trans              &trans            &trans           &trans                   &trans                    &trans
+&trans  &trans                    &trans                &trans             &trans               &trans            &trans              &trans            &trans           &trans                   &trans                    &trans
+                                                        &trans             &trans               &trans            &trans              &trans            &trans
             >;
         };
 
@@ -322,24 +340,6 @@
 &trans     &trans        &trans        &trans        &rgb_ug RGB_TOG  &bl BL_TOG    &kp KP_N4  &kp KP_N5  &kp KP_N6   &kp KP_MINUS     &trans         &trans
 &kp LSHFT  &trans        &trans        &trans        &trans           &trans        &kp KP_N1  &kp KP_N2  &kp KP_N3   &kp KP_MULTIPLY  &kp KP_DIVIDE  &trans
                                        &kp LCTRL     &kp LEFT_GUI     &trans        &kp KP_N0  &trans     &kp KP_DOT
-            >;
-        };
-
-        Symbols {
-            bindings = <
-&kp PIPE              &kp LEFT_BRACE        &kp SQT        &kp GRAVE       &kp DOUBLE_QUOTES  &kp RIGHT_BRACE          &trans          &trans          &trans        &trans           &trans  &trans
-&kp NON_US_BACKSLASH  &kp LEFT_PARENTHESIS  &kp LESS_THAN  &kp EQUAL       &kp GREATER_THAN   &kp RIGHT_PARENTHESIS    &kp LEFT_ARROW  &kp DOWN_ARROW  &kp UP_ARROW  &kp RIGHT_ARROW  &trans  &trans
-&kp QUESTION          &kp LEFT_BRACKET      &kp MINUS      &kp UNDERSCORE  &kp PLUS           &kp RIGHT_BRACKET        &trans          &trans          &trans        &trans           &trans  &trans
-                                                           &kp COLON       &kp SLASH          &kp TILDE                &trans          &trans          &trans
-            >;
-        };
-
-        Number {
-            bindings = <
-&trans  &mt EXCLAMATION NUMBER_1  &mt AT_SIGN NUMBER_2  &mt HASH NUMBER_3  &mt DOLLAR NUMBER_4  &mt PERCENT N5    &mt CARET NUMBER_6  &mt AMPERSAND N7  &mt ASTERISK N8  &mt LEFT_PARENTHESIS N9  &mt RIGHT_PARENTHESIS N0  &trans
-&trans  &trans                    &trans                &trans             &trans               &trans            &trans              &trans            &trans           &trans                   &trans                    &trans
-&trans  &trans                    &trans                &trans             &trans               &trans            &trans              &trans            &trans           &trans                   &trans                    &trans
-                                                        &trans             &trans               &trans            &trans              &trans            &trans
             >;
         };
     };
